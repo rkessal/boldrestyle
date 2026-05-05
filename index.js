@@ -305,9 +305,6 @@ function home() {
 
 function main() {
   menu()
-  if (window.location.pathname.includes('/homepage')) {
-    home()
-  } else {
-    defaultTemplate()
-  }
+  home()
+  defaultTemplate()
 }
