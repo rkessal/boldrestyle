@@ -104,6 +104,7 @@ function defaultTemplate() {
   })
 
   detailsWrappers.forEach((wrapper, index) => {
+    const otherWrappers = [...detailsWrappers].filter((_, i) => i !== index)
     if (index !== 0) {
       const description = wrapper.querySelector('.details-description')
       wrapper.setAttribute('data-state', 'closed')
@@ -112,10 +113,10 @@ function defaultTemplate() {
       })
     }
 
-    wrapper.addEventListener('click', () => onDetailsClick(wrapper))
+    wrapper.addEventListener('click', () => onDetailsClick(wrapper, otherWrappers))
   })
 
-  function onDetailsClick(wrapper) {
+  function onDetailsClick(wrapper, otherWrappers) {
     const currentState = wrapper.getAttribute('data-state')
     const description = wrapper.querySelector('.details-description')
 
@@ -125,6 +126,10 @@ function defaultTemplate() {
 
     if (!currentState || currentState === 'closed') {
       openDetails(wrapper, description)
+      otherWrappers.forEach(otherWrapper => {
+        const otherDescription = otherWrapper.querySelector('.details-description')
+        closeDetails(otherWrapper, otherDescription)
+      })
     } else {
       closeDetails(wrapper, description)
     }
@@ -226,6 +231,8 @@ function home() {
   }
 
   servicesWrappers.forEach(wrapper => {
+    wrapper.addEventListener('mouseenter', onServiceEnter)
+    wrapper.addEventListener('mouseleave', onServiceLeave)
     wrapper.addEventListener('click', onServiceClick)
     wrapper.setAttribute('data-state', 'closed')
 
@@ -239,6 +246,22 @@ function home() {
       } else {
         openDetails()
       }
+    }
+
+    function onServiceEnter() {
+      gsap.set(bullet, {
+        backgroundColor: COLOR_MAIN_GREEN,
+        boxShadow: 'none',
+      })
+    }
+
+    function onServiceLeave() {
+      const isOpen = wrapper.getAttribute('data-state') === 'open'
+      if (isOpen) return
+
+      gsap.set(bullet, {
+        clearProps: true,
+      })
     }
 
     function openDetails() {
