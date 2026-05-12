@@ -212,7 +212,6 @@ function defaultTemplate() {
     })
   }
 
-
 }
 
 function home() {
@@ -274,6 +273,7 @@ function home() {
     }
 
     function openDetails() {
+      scrollToElement(wrapper)
       resetWrappers()
       hideOthers(wrapper)
       gsap.to(details, {
@@ -301,6 +301,17 @@ function home() {
         }
       })
     }
+
+    function scrollToElement(element) {
+      const elementTop = element.getBoundingClientRect().top + window.pageYOffset
+      const offset = window.innerHeight / 2
+
+      window.scrollTo({
+        top: elementTop - offset,
+        behavior: 'smooth'
+      })
+    }
+
 
     function resetWrappers(initial) {
       servicesWrappers.forEach(wrapper => {
