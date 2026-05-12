@@ -28,6 +28,7 @@ function menu() {
   links.forEach((link, index) => {
     link.addEventListener('mouseenter', onMouseEnter)
     link.addEventListener('mouseleave', onMouseLeave)
+    link.addEventListener('click', onMouseClick)
 
     const otherAs = [...linksA].filter((_, i) => i !== index)
     const otherLinks = [...links].filter((_, i) => i !== index)
@@ -78,6 +79,14 @@ function menu() {
       })
 
       setInitialStyles()
+    }
+
+    function onMouseClick() {
+      const menuToggle = document.querySelector('.elementor-menu-toggle')
+      const navMenuContainer = document.querySelector('.elementor-nav-menu__container')
+
+      menuToggle.classList.remove('elementor-active')
+      navMenuContainer.style.setProperty('--menu-height', '0')
     }
   })
 }
