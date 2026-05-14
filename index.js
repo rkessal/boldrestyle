@@ -215,6 +215,8 @@ function defaultTemplate() {
 }
 
 function home() {
+  gsap.registerPlugin(ScrollToPlugin)
+
   const servicesWrappers = document.querySelectorAll('.services-wrapper')
 
   if (!servicesWrappers.length) return
@@ -277,6 +279,7 @@ function home() {
       resetWrappers()
       hideOthers(wrapper)
       gsap.to(details, {
+        display: 'block',
         opacity: 1,
         duration: 1,
       })
@@ -306,9 +309,10 @@ function home() {
       const elementTop = element.getBoundingClientRect().top + window.pageYOffset
       const offset = window.innerHeight / 2
 
-      window.scrollTo({
-        top: elementTop - offset,
-        behavior: 'smooth'
+      gsap.to(window, {
+        scrollTo: elementTop - offset,
+        duration: 2,
+        ease: 'power2'
       })
     }
 
@@ -317,6 +321,7 @@ function home() {
       servicesWrappers.forEach(wrapper => {
         const { bullet, h3, details } = getMainElements(wrapper)
         gsap.to(details, {
+          display: 'none',
           opacity: 0,
           duration: 0.5,
         })
